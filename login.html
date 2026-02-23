@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS 500 Concepts - Premium Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+      }
+
+      /* Animated Background */
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+
+      .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s infinite;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Glassmorphism Container */
+      .glass-container {
+        position: relative;
+        z-index: 10;
+        backdrop-filter: blur(20px);
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+        border-radius: 20px;
+        padding: 60px 50px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow:
+          0 8px 32px 0 rgba(31, 38, 135, 0.37),
+          inset 0 0 20px rgba(34, 211, 238, 0.05);
+        animation: slideUp 0.8s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .neon-glow {
+        color: #22d3ee;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+      }
+
+      .title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: #cbd5e1;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .google-btn-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 30px 0;
+        gap: 15px;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(34, 211, 238, 0.2);
+      }
+
+      .divider-text {
+        color: #94a3b8;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .info-box {
+        background: rgba(34, 211, 238, 0.05);
+        border-left: 3px solid #22d3ee;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+
+      .footer-text {
+        text-align: center;
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 30px;
+      }
+
+      /* Loading Animation */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.95);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+        backdrop-filter: blur(10px);
+      }
+
+      .loading-overlay.active {
+        display: flex;
+      }
+
+      .butter-smooth-loader {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 30px;
+      }
+
+      .loader-circle {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border: 3px solid transparent;
+        border-radius: 50%;
+        border-top: 3px solid #22d3ee;
+        border-right: 3px solid #06b6d4;
+        animation: spinSmooth 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+          infinite;
+      }
+
+      @keyframes spinSmooth {
+        0% {
+          transform: rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: rotate(360deg);
+          opacity: 1;
+        }
+      }
+
+      .loader-text {
+        font-size: 18px;
+        color: #22d3ee;
+        text-align: center;
+        margin-top: 30px;
+        font-weight: 600;
+        animation: fadeInOut 1.5s infinite;
+      }
+
+      .loader-subtext {
+        font-size: 13px;
+        color: #cbd5e1;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .profile-welcome {
+        text-align: center;
+        color: #22d3ee;
+      }
+
+      .profile-welcome img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        border: 2px solid #22d3ee;
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .glass-container {
+          padding: 40px 30px;
+          margin: 20px;
+        }
+
+        .title {
+          font-size: 24px;
+        }
+
+        .subtitle {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Starfield Background -->
+    <div class="stars" id="starfield"></div>
+
+    <!-- Loading Animation Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="butter-smooth-loader">
+        <div class="loader-circle"></div>
+      </div>
+      <div class="profile-welcome">
+        <img id="profileImg" src="" alt="Profile" style="display: none" />
+        <div class="loader-text">
+          Welcome, <span id="userNameLoader">User</span>! 👋
+        </div>
+        <div class="loader-subtext">Preparing your playground...</div>
+      </div>
+    </div>
+
+    <!-- Main Login Container -->
+    <div class="glass-container">
+      <h1 class="title neon-glow">JS 500 Concepts</h1>
+      <p class="subtitle">Master JavaScript Programming Interactively</p>
+
+      <div class="info-box">
+        ✨ Sign in with your Google account to access the full interactive
+        JavaScript learning playground.
+      </div>
+
+      <div class="google-btn-wrapper">
+        <div
+          id="g_id_onload"
+          data-client_id="592039391282-c7assi37s8di4emhschqklejbsqldc2o.apps.googleusercontent.com"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false"
+        ></div>
+        <div
+          id="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="dark"
+          data-text="signin_with"
+        ></div>
+      </div>
+
+      <div class="divider">
+        <span class="divider-text">Premium Features</span>
+      </div>
+
+      <ul style="list-style: none; margin-bottom: 20px">
+        <li
+          style="
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            font-size: 13px;
+          "
+        >
+          <span style="color: #22d3ee">✓</span> 500+ JavaScript Concepts
+        </li>
+        <li
+          style="
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            font-size: 13px;
+          "
+        >
+          <span style="color: #22d3ee">✓</span> Interactive Demos & Code Editor
+        </li>
+        <li
+          style="
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            font-size: 13px;
+          "
+        >
+          <span style="color: #22d3ee">✓</span> Real-time Execution &
+          Visualization
+        </li>
+        <li
+          style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+            font-size: 13px;
+          "
+        >
+          <span style="color: #22d3ee">✓</span> Secure Cloud Sync (Future
+          Update)
+        </li>
+      </ul>
+
+      <div class="footer-text">
+        Your profile data is encrypted and stored securely.
+        <br />
+        <a
+          href="#"
+          style="
+            color: #22d3ee;
+            text-decoration: none;
+            border-bottom: 1px solid #22d3ee;
+          "
+        >
+          Privacy Policy
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // ==========================================
+      // STARFIELD BACKGROUND
+      // ==========================================
+      function createStarfield() {
+        const starfield = document.getElementById("starfield");
+        for (let i = 0; i < 100; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+          star.style.left = Math.random() * 100 + "%";
+          star.style.top = Math.random() * 100 + "%";
+          star.style.animationDelay = Math.random() * 3 + "s";
+          starfield.appendChild(star);
+        }
+      }
+
+      // ==========================================
+      // GOOGLE AUTHENTICATION
+      // ==========================================
+      function handleCredentialResponse(response) {
+        // Decode JWT token to get user info
+        const base64Url = response.credential.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+            .join(""),
+        );
+
+        const userData = JSON.parse(jsonPayload);
+
+        // Show loading animation
+        showLoadingAnimation(userData);
+
+        // Store user data in localStorage
+        localStorage.setItem(
+          "js_playground_user",
+          JSON.stringify({
+            name: userData.name,
+            email: userData.email,
+            picture: userData.picture,
+            token: response.credential,
+            loginTime: new Date().toISOString(),
+          }),
+        );
+
+        // Redirect after animation
+        setTimeout(() => {
+          window.location.href = "index1.html";
+        }, 1500);
+      }
+
+      function showLoadingAnimation(userData) {
+        const overlay = document.getElementById("loadingOverlay");
+        const profileImg = document.getElementById("profileImg");
+        const userNameLoader = document.getElementById("userNameLoader");
+
+        profileImg.src = userData.picture;
+        profileImg.style.display = "block";
+        userNameLoader.textContent = userData.name.split(" ")[0];
+
+        overlay.classList.add("active");
+      }
+
+      window.onload = function () {
+        createStarfield();
+        google.accounts.id.initialize({
+          client_id:
+            "592039391282-c7assi37s8di4emhschqklejbsqldc2o.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("g_id_signin"),
+          {
+            theme: "dark",
+            size: "large",
+            text: "signin_with",
+          },
+        );
+      };
+
+      // ==========================================
+      // SECURITY: Check if already logged in
+      // ==========================================
+      const userData = localStorage.getItem("js_playground_user");
+      if (userData) {
+        // Already logged in, redirect to playground
+        window.location.href = "index1.html";
+      }
+    </script>
+  </body>
+</html>
