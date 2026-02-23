@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS 500 Concepts - Premium Playground</title>
+    <title>JavaScript Concepts - Free Interactive Playground</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
       body {
         background: #0f172a;
@@ -29,7 +28,8 @@
 
       #codeEditor,
       #lineNumbers {
-        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
         font-size: 15px;
         line-height: 1.6;
       }
@@ -38,11 +38,13 @@
         white-space: pre;
         overflow-wrap: normal;
         padding: 24px !important;
+        resize: none;
       }
 
       #lineNumbers {
         padding: 24px 12px 24px 0;
         line-height: 1.6;
+        user-select: none;
       }
 
       .concept-item {
@@ -65,11 +67,6 @@
         color: white;
       }
 
-      .concept-item.locked {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-
       .concept-item .star-btn {
         opacity: 0;
         transition: opacity 0.2s;
@@ -83,22 +80,6 @@
 
       .concept-item:hover .star-btn {
         opacity: 1;
-      }
-
-      .premium-badge {
-        display: inline-block;
-        background: rgba(234, 179, 8, 0.2);
-        color: #fbbf24;
-        font-size: 10px;
-        padding: 2px 6px;
-        border-radius: 3px;
-        margin-left: 4px;
-      }
-
-      .lock-icon {
-        font-size: 12px;
-        margin-left: 4px;
-        color: #f87171;
       }
 
       .category-header {
@@ -136,7 +117,7 @@
       .profile-section {
         display: flex;
         align-items: center;
-        gap: 0;
+        gap: 12px;
         position: relative;
       }
 
@@ -202,13 +183,6 @@
         color: #22d3ee;
       }
 
-      .profile-dropdown-item.premium-status {
-        background: rgba(34, 211, 238, 0.1);
-        border: 1px solid rgba(34, 211, 238, 0.3);
-        border-radius: 4px;
-        margin: 8px 0;
-      }
-
       .logout-btn {
         padding: 8px 14px;
         font-size: 13px;
@@ -233,7 +207,11 @@
         padding: 10px 24px !important;
         font-size: 14px !important;
         font-weight: 700 !important;
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+        background: linear-gradient(
+          135deg,
+          #3b82f6 0%,
+          #1d4ed8 100%
+        ) !important;
         border: none !important;
         color: white !important;
         border-radius: 6px !important;
@@ -244,32 +222,17 @@
       }
 
       .run-button-primary:hover {
-        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+        background: linear-gradient(
+          135deg,
+          #1d4ed8 0%,
+          #1e40af 100%
+        ) !important;
         box-shadow: 0 0 30px rgba(59, 130, 246, 0.5) !important;
         transform: translateY(-2px);
       }
 
       .run-button-primary:active {
         transform: translateY(0);
-      }
-
-      .premium-btn {
-        padding: 8px 14px;
-        font-size: 12px;
-        font-weight: 600;
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: all 0.2s;
-        width: 100%;
-        text-align: center;
-      }
-
-      .premium-btn:hover {
-        box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
-        transform: translateY(-1px);
       }
 
       .toolbar-separator {
@@ -282,204 +245,49 @@
       .section-divider {
         border-left: 2px solid rgba(34, 211, 238, 0.15);
       }
-
-      .premium-lock-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(15, 23, 42, 0.9);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 9998;
-        backdrop-filter: blur(5px);
-      }
-
-      .premium-lock-overlay.active {
-        display: flex;
-        animation: fadeIn 0.3s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      .premium-modal {
-        background: #1e293b;
-        border: 2px solid rgba(245, 158, 11, 0.3);
-        border-radius: 12px;
-        padding: 40px;
-        max-width: 450px;
-        text-align: center;
-        box-shadow: 0 20px 60px rgba(245, 158, 11, 0.2);
-      }
-
-      .premium-modal h2 {
-        color: #f59e0b;
-        font-size: 24px;
-        margin-bottom: 12px;
-      }
-
-      .premium-modal p {
-        color: #cbd5e1;
-        margin-bottom: 20px;
-        line-height: 1.6;
-      }
-
-      .premium-features {
-        text-align: left;
-        background: rgba(245, 158, 11, 0.05);
-        border-radius: 8px;
-        padding: 16px;
-        margin: 20px 0;
-      }
-
-      .premium-features li {
-        list-style: none;
-        color: #cbd5e1;
-        margin: 8px 0;
-        padding-left: 24px;
-        position: relative;
-      }
-
-      .premium-features li:before {
-        content: "✓";
-        position: absolute;
-        left: 0;
-        color: #4ade80;
-        font-weight: bold;
-      }
-
-      .upgrade-btn-modal {
-        padding: 12px 28px;
-        font-size: 14px;
-        font-weight: 700;
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s;
-        margin-top: 16px;
-      }
-
-      .upgrade-btn-modal:hover {
-        transform: scale(1.05);
-      }
-
-      .close-modal-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: transparent;
-        border: none;
-        color: #cbd5e1;
-        font-size: 28px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .close-modal-btn:hover {
-        color: #f59e0b;
-      }
-
-      .trial-banner {
-        background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-        border: 1px solid rgba(34, 211, 238, 0.3);
-        border-radius: 6px;
-        padding: 12px 16px;
-        margin-bottom: 12px;
-        font-size: 12px;
-        color: #22d3ee;
-      }
-
-      .trial-banner strong {
-        color: #4ade80;
-      }
-
-      .sidebar-header-premium {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px;
-        background: rgba(245, 158, 11, 0.1);
-        border-radius: 6px;
-        margin-bottom: 12px;
-      }
-
-      .sidebar-header-premium span {
-        color: #f59e0b;
-        font-weight: 600;
-        font-size: 12px;
-      }
     </style>
   </head>
   <body>
     <!-- SECURITY GUARD -->
     <script>
-      const userData = localStorage.getItem('js_playground_user');
+      const userData = localStorage.getItem("js_playground_user");
       if (!userData) {
-        window.location.href = 'login.html';
+        window.location.href = "login.html";
       }
     </script>
 
-    <!-- Premium Lock Overlay -->
-    <div id="premiumLockOverlay" class="premium-lock-overlay">
-      <button class="close-modal-btn" onclick="document.getElementById('premiumLockOverlay').classList.remove('active');">✕</button>
-      <div class="premium-modal">
-        <h2>🔒 Premium Feature</h2>
-        <p>This concept is available only in the Premium plan.</p>
-        <div class="premium-features">
-          <li>Access 500+ JavaScript Concepts</li>
-          <li>Export Code as .js Files</li>
-          <li>Advanced Animations & Effects</li>
-          <li>Priority Support</li>
-          <li>30-Day Money Back Guarantee</li>
-        </div>
-        <p style="font-size: 18px; font-weight: bold; color: #f59e0b;">₹49/month</p>
-        <button class="upgrade-btn-modal" onclick="window.handleSubscription();">Upgrade Now 🚀</button>
-      </div>
-    </div>
-
     <!-- LEFT SIDEBAR: Concepts List -->
     <div class="flex h-screen overflow-hidden">
-      <div class="w-80 flex flex-col border-r border-slate-700 bg-slate-900/50 backdrop-blur z-10">
+      <div
+        class="w-80 flex flex-col border-r border-slate-700 bg-slate-900/50 backdrop-blur z-10"
+      >
         <div class="p-4 pb-3 border-b border-slate-800">
-          <h1 class="text-lg font-bold neon mb-3">JS 500 Concepts</h1>
-
-          <!-- Trial/Premium Status -->
-          <div id="premiumBannerArea"></div>
+          <h1 class="text-lg font-bold neon mb-3">✨ JS Concepts</h1>
 
           <input
             id="searchInput"
             type="text"
             placeholder="Search concepts... (Ctrl+K)"
-            class="w-full p-2 rounded bg-slate-800 text-white text-sm outline-none focus:ring-1 focus:ring-cyan-500"
+            class="w-full p-2 rounded bg-slate-800 text-white text-sm outline-none focus:ring-1 focus:ring-cyan"
           />
         </div>
 
-        <!-- Premium Upgrade CTA -->
-        <div id="upgradeCtaArea" style="padding: 12px; display: none;">
-          <button
-            onclick="window.handleSubscription();"
-            class="premium-btn"
-          >
-            ⭐ Upgrade to Premium
-          </button>
-        </div>
-
-        <div id="conceptList" class="flex-1 overflow-y-auto sidebar-scroll p-2"></div>
+        <div
+          id="conceptList"
+          class="flex-1 overflow-y-auto sidebar-scroll p-2"
+        ></div>
       </div>
 
       <!-- CENTER: Code Editor -->
       <div class="flex-1 flex flex-col min-w-0 bg-[#0f172a]">
         <!-- Toolbar -->
-        <div class="h-16 border-b border-slate-700 flex justify-between items-center px-6 bg-slate-800/40">
-          <h2 id="conceptTitle" class="text-base font-bold text-cyan-400 truncate flex-1">
+        <div
+          class="h-16 border-b border-slate-700 flex justify-between items-center px-6 bg-slate-800/40"
+        >
+          <h2
+            id="conceptTitle"
+            class="text-base font-bold text-cyan-400 truncate flex-1"
+          >
             Select a Concept
           </h2>
           <div class="flex items-center gap-2">
@@ -492,7 +300,6 @@
             <button
               id="exportBtn"
               class="px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
-              title="Premium Feature"
             >
               Export
             </button>
@@ -504,37 +311,30 @@
             </button>
 
             <!-- Run Button (Electric Blue) -->
-            <button
-              id="runBtn"
-              class="run-button-primary"
-            >
-              ▶ Run Code
-            </button>
+            <button id="runBtn" class="run-button-primary">▶ Run Code</button>
 
             <div class="toolbar-separator"></div>
 
-            <!-- User Profile -->
+            <!-- User Profile (Top Right) -->
             <div class="profile-section">
-              <img id="profilePic" class="profile-pic" alt="Profile" title="Click for menu" />
+              <img
+                id="profilePic"
+                class="profile-pic"
+                alt="Profile"
+                title="Click for menu"
+              />
 
               <div id="profileDropdown" class="profile-dropdown">
                 <div class="profile-dropdown-item info">
                   <strong id="userNameDisplay">User</strong>
                   <br />
-                  <span id="userEmailDisplay" style="font-size: 11px; color: #64748b;"></span>
+                  <span
+                    id="userEmailDisplay"
+                    style="font-size: 11px; color: #64748b"
+                  ></span>
                 </div>
 
-                <div class="profile-dropdown-item premium-status" id="premiumStatusDisplay">
-                  <strong>📦 Status:</strong> Free Plan<br>
-                  <span id="statusDetail" style="font-size: 11px;">50 Concepts Available</span>
-                </div>
-
-                <button
-                  id="logoutBtn"
-                  class="logout-btn"
-                >
-                  🚪 Logout
-                </button>
+                <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
               </div>
             </div>
           </div>
@@ -544,14 +344,19 @@
         <div class="flex-1 relative flex overflow-hidden">
           <div
             id="lineNumbers"
-            class="bg-[#0f172a] text-slate-500 text-right select-none border-r border-slate-800 overflow-hidden py-6"
-            style="width: 50px; font-size: 15px; line-height: 1.6; color: #475569;"
+            class="bg-[#0f172a] text-slate text-right select-none border-r border-slate-800 overflow-hidden py-6"
+            style="
+              width: 50px;
+              font-size: 15px;
+              line-height: 1.6;
+              color: #475569;
+            "
           >
             1
           </div>
           <textarea
             id="codeEditor"
-            class="flex-1 h-full bg-[#0f172a] text-green-400 outline-none resize-none font-mono"
+            class="flex-1 h-full bg-[#0f172a] text-green-400 outline-none font-mono"
             spellcheck="false"
             placeholder="// Select a concept to load code here..."
           ></textarea>
@@ -559,192 +364,82 @@
       </div>
 
       <!-- RIGHT PANEL: Output -->
-      <div class="section-divider w-96 flex flex-col bg-slate-900 overflow-hidden">
-        <div class="px-4 py-3 bg-slate-800/60 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-700">
+      <div
+        class="section-divider w-96 flex flex-col bg-slate-900 overflow-hidden"
+      >
+        <div
+          class="px-4 py-3 bg-slate-800/60 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-700"
+        >
           💻 Output & Results
         </div>
-        <div id="visualArea" class="flex-1 p-5 overflow-auto bg-slate-950 space-y-2"></div>
+        <div
+          id="visualArea"
+          class="flex-1 p-5 overflow-auto bg-slate-950 space-y-2"
+        ></div>
       </div>
     </div>
 
     <script src="concepts.js"></script>
     <script>
       // ==========================================
-      // PREMIUM STATE MANAGEMENT
-      // ==========================================
-      let isPremium = false;
-      let trialEndDate = null;
-
-      // ==========================================
-      // LOAD PREMIUM STATUS
-      // ==========================================
-      function loadPremiumStatus() {
-        const storedStatus = localStorage.getItem('user_premium_status');
-        if (storedStatus) {
-          const status = JSON.parse(storedStatus);
-          isPremium = status.isPremium;
-          trialEndDate = status.trialEndDate;
-
-          if (isPremium) {
-            updatePremiumUI();
-          } else if (trialEndDate) {
-            checkTrialStatus();
-          }
-        } else {
-          // Start 15-day trial
-          startTrial();
-        }
-      }
-
-      function startTrial() {
-        const endDate = new Date();
-        endDate.setDate(endDate.getDate() + 15);
-        trialEndDate = endDate.toISOString();
-
-        localStorage.setItem('user_premium_status', JSON.stringify({
-          isPremium: false,
-          trialEndDate: trialEndDate
-        }));
-
-        updateTrialBanner();
-      }
-
-      function checkTrialStatus() {
-        if (new Date(trialEndDate) < new Date()) {
-          trialEndDate = null;
-          localStorage.setItem('user_premium_status', JSON.stringify({
-            isPremium: false,
-            trialEndDate: null
-          }));
-          showUpgradeCTA();
-        } else {
-          updateTrialBanner();
-        }
-      }
-
-      function updateTrialBanner() {
-        const daysLeft = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
-        const banner = `<div class="trial-banner">
-          🎁 <strong>${daysLeft} days</strong> left in your free trial | <a href="#" onclick="window.handleSubscription(); return false;" style="color: #60a5fa; text-decoration: underline;">Upgrade</a>
-        </div>`;
-        document.getElementById('premiumBannerArea').innerHTML = banner;
-      }
-
-      function showUpgradeCTA() {
-        document.getElementById('upgradeCtaArea').style.display = 'block';
-        document.getElementById('premiumBannerArea').innerHTML = '';
-      }
-
-      function updatePremiumUI() {
-        document.getElementById('upgradeCtaArea').style.display = 'none';
-        document.getElementById('premiumBannerArea').innerHTML = '<div style="background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 6px; padding: 8px; text-align: center; color: #22d3ee; font-size: 12px; font-weight: 600;">⭐ Premium Member</div>';
-        document.getElementById('premiumStatusDisplay').innerHTML = '<strong>⭐ Status:</strong> Premium<br><span style="font-size: 11px;">All features unlocked!</span>';
-        document.getElementById('exportBtn').disabled = false;
-        renderSidebar();
-      }
-
-      // ==========================================
-      // RAZORPAY SUBSCRIPTION
-      // ==========================================
-      window.handleSubscription = function() {
-        const options = {
-          key: "rzp_test_1DP5MMOk9xsrPq", // Test key (replace with live)
-          amount: 4900, // ₹49 in paise
-          currency: "INR",
-          name: "JS 500 Concepts",
-          description: "Premium Monthly Subscription",
-          prefill: {
-            email: JSON.parse(localStorage.getItem('js_playground_user')).email,
-            contact: "9999999999"
-          },
-          theme: {
-            color: "#3b82f6"
-          },
-          handler: function(response) {
-            // Mock successful payment
-            log('✓ Payment successful! ID: ' + response.razorpay_payment_id, 'success');
-
-            isPremium = true;
-            localStorage.setItem('user_premium_status', JSON.stringify({
-              isPremium: true,
-              trialEndDate: null
-            }));
-
-            updatePremiumUI();
-            log('🎉 Premium access unlocked!', 'success');
-
-            // Smooth transition
-            document.getElementById('premiumLockOverlay').classList.remove('active');
-          },
-          modal: {
-            ondismiss: function() {
-              log('Payment cancelled', 'error');
-            }
-          }
-        };
-
-        const rzp = new Razorpay(options);
-        rzp.open();
-      };
-
-      // ==========================================
       // GLOBAL STATE
       // ==========================================
       let currentConcept = null;
-      const favorites = new Set(JSON.parse(localStorage.getItem('favorites') || '[]'));
+      const favorites = new Set(
+        JSON.parse(localStorage.getItem("favorites") || "[]"),
+      );
 
       // ==========================================
       // LOG FUNCTION
       // ==========================================
-      window.log = function(message, type = 'log') {
-        const item = document.createElement('div');
-        item.className = 'output-item ' + (type === 'error' ? 'error' : type === 'success' ? 'success' : '');
-        item.textContent = '> ' + message;
+      window.log = function (message, type = "log") {
+        const item = document.createElement("div");
+        item.className =
+          "output-item " +
+          (type === "error" ? "error" : type === "success" ? "success" : "");
+        item.textContent = "> " + message;
         visualArea.appendChild(item);
         visualArea.scrollTop = visualArea.scrollHeight;
       };
 
       // ==========================================
-      // SIDEBAR RENDERING WITH PREMIUM LOGIC
+      // SIDEBAR RENDERING - ALL CONCEPTS ACCESSIBLE
       // ==========================================
-      function renderSidebar(filter = '') {
-        const sidebar = document.getElementById('conceptList');
-        sidebar.innerHTML = '';
+      function renderSidebar(filter = "") {
+        const sidebar = document.getElementById("conceptList");
+        sidebar.innerHTML = "";
 
-        const visibleConcepts = isPremium ?
-          CONCEPT_DATA :
-          CONCEPT_DATA.filter(c => c.id <= 50);
-
+        // Show ALL concepts (no filtering)
         const grouped = {};
-        visibleConcepts.forEach(concept => {
+        CONCEPT_DATA.forEach((concept) => {
           if (!grouped[concept.category]) grouped[concept.category] = [];
           grouped[concept.category].push(concept);
         });
 
         Object.entries(grouped).forEach(([category, concepts]) => {
-          const header = document.createElement('div');
-          header.className = 'category-header';
+          const header = document.createElement("div");
+          header.className = "category-header";
           header.textContent = category;
           sidebar.appendChild(header);
 
-          concepts.forEach(concept => {
-            if (filter && !concept.title.toLowerCase().includes(filter.toLowerCase())) return;
+          concepts.forEach((concept) => {
+            if (
+              filter &&
+              !concept.title.toLowerCase().includes(filter.toLowerCase())
+            )
+              return;
 
-            const item = document.createElement('div');
-            item.className = 'concept-item';
-            if (!isPremium && concept.premium) item.classList.add('locked');
+            const item = document.createElement("div");
+            item.className = "concept-item";
             item.dataset.id = concept.id;
 
-            const titleSpan = document.createElement('span');
+            const titleSpan = document.createElement("span");
             titleSpan.textContent = concept.title;
-            if (concept.premium && !isPremium) {
-              titleSpan.innerHTML += ' <span class="lock-icon">🔒</span>';
-            }
             titleSpan.style.flex = 1;
 
-            const starBtn = document.createElement('button');
-            starBtn.className = 'star-btn';
-            starBtn.textContent = favorites.has(concept.id) ? '★' : '☆';
+            const starBtn = document.createElement("button");
+            starBtn.className = "star-btn";
+            starBtn.textContent = favorites.has(concept.id) ? "★" : "☆";
             starBtn.onclick = (e) => {
               e.stopPropagation();
               if (favorites.has(concept.id)) {
@@ -752,19 +447,18 @@
               } else {
                 favorites.add(concept.id);
               }
-              localStorage.setItem('favorites', JSON.stringify(Array.from(favorites)));
-              starBtn.textContent = favorites.has(concept.id) ? '★' : '☆';
+              localStorage.setItem(
+                "favorites",
+                JSON.stringify(Array.from(favorites)),
+              );
+              starBtn.textContent = favorites.has(concept.id) ? "★" : "☆";
             };
 
             item.appendChild(titleSpan);
             item.appendChild(starBtn);
 
             item.onclick = () => {
-              if (!isPremium && concept.premium) {
-                document.getElementById('premiumLockOverlay').classList.add('active');
-              } else {
-                loadConcept(concept);
-              }
+              loadConcept(concept);
             };
 
             sidebar.appendChild(item);
@@ -777,84 +471,84 @@
       // ==========================================
       function loadConcept(concept) {
         currentConcept = concept;
-        document.getElementById('conceptTitle').textContent = concept.title;
-        document.getElementById('codeEditor').value = concept.code;
-        document.getElementById('visualArea').innerHTML = '';
+        document.getElementById("conceptTitle").textContent = concept.title;
+        document.getElementById("codeEditor").value = concept.code;
+        document.getElementById("visualArea").innerHTML = "";
         updateLineNumbers();
 
-        document.querySelectorAll('.concept-item').forEach(item => {
-          item.classList.remove('active');
+        document.querySelectorAll(".concept-item").forEach((item) => {
+          item.classList.remove("active");
         });
-        document.querySelector(`[data-id="${concept.id}"]`)?.classList.add('active');
+        document
+          .querySelector(`[data-id="${concept.id}"]`)
+          ?.classList.add("active");
       }
 
       // ==========================================
       // EXECUTE CODE
       // ==========================================
-      document.getElementById('runBtn').onclick = () => {
-        const code = document.getElementById('codeEditor').value;
-        document.getElementById('visualArea').innerHTML = '';
+      document.getElementById("runBtn").onclick = () => {
+        const code = document.getElementById("codeEditor").value;
+        document.getElementById("visualArea").innerHTML = "";
 
         try {
-          const func = new Function('log', 'visualArea', code);
-          func(log, document.getElementById('visualArea'));
+          const func = new Function("log", "visualArea", code);
+          func(log, document.getElementById("visualArea"));
         } catch (err) {
-          log('Error: ' + err.message, 'error');
+          log("Error: " + err.message, "error");
         }
       };
 
       // ==========================================
       // LINE NUMBERS
       // ==========================================
-      const editor = document.getElementById('codeEditor');
-      const lineNumbers = document.getElementById('lineNumbers');
+      const editor = document.getElementById("codeEditor");
+      const lineNumbers = document.getElementById("lineNumbers");
 
       function updateLineNumbers() {
-        const lines = editor.value.split('\n').length;
-        lineNumbers.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+        const lines = editor.value.split("\n").length;
+        lineNumbers.innerHTML = Array(lines)
+          .fill(0)
+          .map((_, i) => i + 1)
+          .join("<br>");
       }
 
-      editor.addEventListener('input', updateLineNumbers);
-      editor.addEventListener('scroll', () => {
+      editor.addEventListener("input", updateLineNumbers);
+      editor.addEventListener("scroll", () => {
         lineNumbers.scrollTop = editor.scrollTop;
       });
 
       // ==========================================
       // TOOLBAR BUTTONS
       // ==========================================
-      document.getElementById('copyBtn').onclick = () => {
-        const code = document.getElementById('codeEditor').value;
+      document.getElementById("copyBtn").onclick = () => {
+        const code = document.getElementById("codeEditor").value;
         navigator.clipboard.writeText(code).then(() => {
-          log('✓ Code copied!', 'success');
+          log("✓ Code copied!", "success");
         });
       };
 
-      document.getElementById('exportBtn').onclick = () => {
-        if (!isPremium) {
-          document.getElementById('premiumLockOverlay').classList.add('active');
-          return;
-        }
-
-        const code = document.getElementById('codeEditor').value;
-        const title = document.getElementById('conceptTitle').textContent;
+      document.getElementById("exportBtn").onclick = () => {
+        const code = document.getElementById("codeEditor").value;
+        const title = document.getElementById("conceptTitle").textContent;
         const timestamp = new Date().toISOString().slice(0, 19);
         const content = `// ${title}\n// Exported: ${timestamp}\n\n${code}`;
 
-        const blob = new Blob([content], { type: 'text/javascript' });
+        const blob = new Blob([content], { type: "text/javascript" });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = `${title.replace(/\s+/g, '_')}_${timestamp.replace(/:/g, '-')}.js`;
+        a.download = `${title.replace(/\s+/g, "_")}_${timestamp.replace(/:/g, "-")}.js`;
         a.click();
         URL.revokeObjectURL(url);
-        log('✓ Code exported!', 'success');
+        log("✓ Code exported!", "success");
       };
 
-      document.getElementById('resetBtn').onclick = () => {
+      document.getElementById("resetBtn").onclick = () => {
         if (currentConcept) {
-          document.getElementById('codeEditor').value = currentConcept.code;
+          document.getElementById("codeEditor").value = currentConcept.code;
           updateLineNumbers();
-          log('✓ Code reset', 'success');
+          log("✓ Code reset", "success");
         }
       };
 
@@ -862,43 +556,43 @@
       // USER PROFILE & LOGOUT
       // ==========================================
       function loadUserProfile() {
-        const user = JSON.parse(localStorage.getItem('js_playground_user'));
+        const user = JSON.parse(localStorage.getItem("js_playground_user"));
         if (user) {
-          document.getElementById('profilePic').src = user.picture;
-          document.getElementById('profilePic').title = user.name;
-          document.getElementById('userNameDisplay').textContent = user.name;
-          document.getElementById('userEmailDisplay').textContent = user.email;
+          document.getElementById("profilePic").src = user.picture;
+          document.getElementById("profilePic").title = user.name;
+          document.getElementById("userNameDisplay").textContent = user.name;
+          document.getElementById("userEmailDisplay").textContent = user.email;
         }
       }
 
-      document.getElementById('profilePic').onclick = () => {
-        const dropdown = document.getElementById('profileDropdown');
-        dropdown.classList.toggle('active');
+      document.getElementById("profilePic").onclick = () => {
+        const dropdown = document.getElementById("profileDropdown");
+        dropdown.classList.toggle("active");
       };
 
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.profile-section')) {
-          document.getElementById('profileDropdown').classList.remove('active');
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".profile-section")) {
+          document.getElementById("profileDropdown").classList.remove("active");
         }
       });
 
-      document.getElementById('logoutBtn').onclick = () => {
-        localStorage.removeItem('js_playground_user');
-        localStorage.removeItem('favorites');
-        window.location.href = 'login.html';
+      document.getElementById("logoutBtn").onclick = () => {
+        localStorage.removeItem("js_playground_user");
+        localStorage.removeItem("favorites");
+        window.location.href = "login.html";
       };
 
       // ==========================================
       // SEARCH
       // ==========================================
-      document.getElementById('searchInput').addEventListener('input', (e) => {
+      document.getElementById("searchInput").addEventListener("input", (e) => {
         renderSidebar(e.target.value);
       });
 
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
           e.preventDefault();
-          document.getElementById('searchInput').focus();
+          document.getElementById("searchInput").focus();
         }
       });
 
@@ -906,14 +600,13 @@
       // INITIALIZE
       // ==========================================
       loadUserProfile();
-      loadPremiumStatus();
       renderSidebar();
       if (CONCEPT_DATA.length > 0) {
         loadConcept(CONCEPT_DATA[0]);
       }
       updateLineNumbers();
 
-      log('✓ JavaScript 500 Concepts Playground loaded!', 'success');
+      log("✓ JavaScript Concepts Playground loaded! (100% FREE)", "success");
     </script>
   </body>
 </html>
