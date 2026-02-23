@@ -277,17 +277,35 @@
         font-weight: 700 !important;
         background: linear-gradient(
           135deg,
-          #3b82f6 0%,
-          #1d4ed8 100%
+          #10b981 0%,
+          #059669 100%
         ) !important;
         border: none !important;
         color: white !important;
         border-radius: 6px !important;
         cursor: pointer;
-        transition: all 0.3s !important;
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3) !important;
+        transition: all 0.2s !important;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .run-button-primary:hover {
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.6) !important;
+        transform: translateY(-2px);
+        background: linear-gradient(
+          135deg,
+          #059669 0%,
+          #047857 100%
+        ) !important;
+      }
+
+      .run-button-primary:active {
+        transform: translateY(0);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
       }
 
       @media (max-width: 768px) {
@@ -501,7 +519,110 @@
         }
       }
 
-      /* Responsive Container */
+      /* Smart Suggest Toggle */
+      .smart-suggest-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: rgba(34, 211, 238, 0.1);
+        border: 1px solid rgba(34, 211, 238, 0.3);
+        border-radius: 6px;
+        font-size: 12px;
+        color: #22d3ee;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .smart-suggest-toggle:hover {
+        background: rgba(34, 211, 238, 0.2);
+        border-color: rgba(34, 211, 238, 0.5);
+      }
+
+      .smart-suggest-toggle input[type="checkbox"] {
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        accent-color: #10b981;
+      }
+
+      .smart-suggest-toggle label {
+        cursor: pointer;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .smart-suggest-toggle {
+          padding: 4px 8px;
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .smart-suggest-toggle {
+          display: none;
+        }
+      }
+
+      /* ========== SYNTAX HIGHLIGHTING COLORS ========== */
+      :root {
+        --color-keyword: #c084fc;      /* Purple - let, const, function, return */
+        --color-string: #fb923c;       /* Orange - "hello", 'world' */
+        --color-number: #facc15;       /* Yellow - 42, 3.14, true, false */
+        --color-comment: #4ade80;      /* Green - comments */
+        --color-operator: #06b6d4;    /* Cyan - +, -, *, ==, etc */
+        --color-variable: #60a5fa;    /* Blue - variable names, identifiers */
+        --color-bracket: #e2e8f0;    /* Light gray - (), [], {} */
+        --color-function: #c084fc;    /* Purple - function calls */
+        --color-builtin: #f97316;     /* Orange - console, document, etc */
+      }
+
+      /* Code editor styling with syntax hint support */
+      #codeEditor {
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #0f1729 100%
+        );
+        color: #e2e8f0;
+        border: 1px solid rgba(34, 211, 238, 0.1);
+        caret-color: #22d3ee;
+        box-shadow: 0 0 20px rgba(15, 23, 42, 0.5) inset;
+      }
+
+      #codeEditor:focus {
+        outline: none;
+        border-color: rgba(34, 211, 238, 0.3);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.1) inset,
+                    0 0 10px rgba(34, 211, 238, 0.05);
+      }
+
+      /* Syntax highlighting reference comments inside code */
+      .syntax-hint {
+        font-size: 10px;
+        opacity: 0.5;
+        margin-top: 4px;
+        padding: 8px;
+        background: rgba(34, 211, 238, 0.05);
+        border-left: 2px solid rgba(34, 211, 238, 0.2);
+        border-radius: 3px;
+        font-family: monospace;
+      }
+
+      .syntax-hint-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin: 0 15px 0 0;
+      }
+
+      .syntax-hint-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+      }
+
+      /* ========== RESPONSIVE CONTAINER ========== */
       .main-container {
         display: flex;
         height: 100vh;
@@ -519,14 +640,14 @@
         display: flex;
         flex-direction: column;
         flex: 1;
-        min-w: 0;
-        min-h: 0;
+        min-width: 0;
+        min-height: 0;
       }
 
       @media (max-width: 768px) {
         .editor-container {
           flex: 1;
-          min-h: calc(100vh - 300px - 64px);
+          min-height: calc(100vh - 300px - 64px);
         }
       }
     </style>
@@ -603,10 +724,16 @@
               >
                 Reset
               </button>
+            <div class="toolbar-separator"></div>
+
+            <!-- Smart Suggest Toggle -->
+            <div class="smart-suggest-toggle">
+              <input type="checkbox" id="smartSuggestToggle" checked />
+              <label for="smartSuggestToggle">💡 Smart Suggest</label>
             </div>
 
-            <!-- Run Button (Electric Blue) -->
-            <button id="runBtn" class="run-button-primary">▶ Run</button>
+            <!-- Run Button (Primary Action) -->
+            <button id="runBtn" class="run-button-primary"><span>▶</span> <span>Run Code</span></button>
 
             <div class="toolbar-separator"></div>
 
@@ -655,6 +782,34 @@
             spellcheck="false"
             placeholder="// Select a concept to load code here..."
           ></textarea>
+
+          <!-- Syntax Highlighting Reference -->
+          <div class="syntax-hint">
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #c084fc;"></span>
+              <span>Keywords</span>
+            </span>
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #fb923c;"></span>
+              <span>Strings</span>
+            </span>
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #facc15;"></span>
+              <span>Numbers</span>
+            </span>
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #60a5fa;"></span>
+              <span>Variables</span>
+            </span>
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #4ade80;"></span>
+              <span>Comments</span>
+            </span>
+            <span class="syntax-hint-item">
+              <span class="syntax-hint-color" style="background: #06b6d4;"></span>
+              <span>Operators</span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -670,8 +825,11 @@
         </div>
         <div
           id="visualArea"
-          class="flex-1 p-5 overflow-auto bg-slate-950 space-y-2"
-        ></div>
+          class="flex-1 p-5 overflow-auto bg-slate-950 space-y-2 flex flex-col"
+        >
+          <div id="visualStage" class="flex-1 border border-cyan-500/30 rounded-lg bg-slate-900/50 p-4 mb-4 overflow-hidden"></div>
+          <div id="outputLogs" class="flex-1 overflow-auto space-y-2"></div>
+        </div>
       </div>
     </div>
 
@@ -688,14 +846,15 @@
       // ==========================================
       // LOG FUNCTION
       // ==========================================
+      const outputLogs = document.getElementById("outputLogs");
       window.log = function (message, type = "log") {
         const item = document.createElement("div");
         item.className =
           "output-item " +
           (type === "error" ? "error" : type === "success" ? "success" : "");
         item.textContent = "> " + message;
-        visualArea.appendChild(item);
-        visualArea.scrollTop = visualArea.scrollHeight;
+        outputLogs.appendChild(item);
+        outputLogs.scrollTop = outputLogs.scrollHeight;
       };
 
       // ==========================================
@@ -785,13 +944,48 @@
       // ==========================================
       document.getElementById("runBtn").onclick = () => {
         const code = document.getElementById("codeEditor").value;
-        document.getElementById("visualArea").innerHTML = "";
+        const visualStage = document.getElementById("visualStage");
+        const outputLogs = document.getElementById("outputLogs");
+
+        // Clear both stage and logs
+        visualStage.innerHTML = "";
+        outputLogs.innerHTML = "";
+
+        // Override console.log for this execution
+        const originalConsole = window.console.log;
+        window.console.log = function(...args) {
+          const message = args.map(arg => {
+            if (typeof arg === 'object') {
+              try { return JSON.stringify(arg); } catch { return String(arg); }
+            }
+            return String(arg);
+          }).join(' ');
+          log(message, "log");
+        };
 
         try {
-          const func = new Function("log", "visualArea", code);
-          func(log, document.getElementById("visualArea"));
+          // Provide context: log, visualStage, and animation libraries
+          const func = new Function(
+            "log",
+            "visualStage",
+            "gsap",
+            "anime",
+            "document",
+            code
+          );
+          func(
+            log,
+            visualStage,
+            window.gsap,
+            window.anime,
+            document
+          );
         } catch (err) {
           log("Error: " + err.message, "error");
+          console.error(err);
+        } finally {
+          // Restore original console.log
+          window.console.log = originalConsole;
         }
       };
 
@@ -812,6 +1006,101 @@
       editor.addEventListener("input", updateLineNumbers);
       editor.addEventListener("scroll", () => {
         lineNumbers.scrollTop = editor.scrollTop;
+      });
+
+      // ==========================================
+      // SMART SUGGESTIONS
+      // ==========================================
+      const smartSuggestToggle = document.getElementById("smartSuggestToggle");
+      let smartSuggestEnabled = true;
+
+      smartSuggestToggle.addEventListener("change", (e) => {
+        smartSuggestEnabled = e.target.checked;
+      });
+
+      // Auto-close characters and snippet suggestions
+      editor.addEventListener("keydown", (e) => {
+        if (!smartSuggestEnabled) return;
+
+        const { key, shiftKey, ctrlKey, metaKey } = e;
+        if (ctrlKey || metaKey) return; // Ignore Ctrl/Cmd combinations
+
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+        const selectedText = text.substring(start, end);
+
+        // Auto-close pairs
+        const pairs = { "(": ")", "[": "]", "{": "}", '"': '"', "'": "'" };
+
+        if (pairs[key]) {
+          e.preventDefault();
+          const closeChar = pairs[key];
+
+          // For quotes, check if we're not already in a quote
+          if ((key === '"' || key === "'") && selectedText === "") {
+            const before = text.substring(Math.max(0, start - 1), start);
+            const after = text.substring(end, Math.min(text.length, end + 1));
+
+            // Simple quote toggle - insert pair
+            editor.value = text.substring(0, start) + key + closeChar + text.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + 1;
+          } else {
+            // For brackets, wrap selection or insert pair
+            editor.value = text.substring(0, start) + key + selectedText + closeChar + text.substring(end);
+            editor.selectionStart = start + 1;
+            editor.selectionEnd = start + 1 + selectedText.length;
+          }
+          updateLineNumbers();
+          editor.dispatchEvent(new Event("input"));
+          return;
+        }
+
+        // Snippet suggestions
+        if (key === " " && !selectedText) {
+          const lineStart = text.lastIndexOf("\\n", start - 1) + 1;
+          const lineText = text.substring(lineStart, start).trim();
+
+          let snippet = null;
+
+          // For loop snippet
+          if (lineText === "for") {
+            snippet = "for (let i = 0; i < 10; i++) {\\n  \\n}";
+          }
+          // If statement snippet
+          else if (lineText === "if") {
+            snippet = "if (condition) {\\n  \\n}";
+          }
+          // Else if snippet
+          else if (lineText === "else if") {
+            snippet = "else if (condition) {\\n  \\n}";
+          }
+          // Else snippet
+          else if (lineText === "else") {
+            snippet = "else {\\n  \\n}";
+          }
+          // While loop
+          else if (lineText === "while") {
+            snippet = "while (condition) {\\n  \\n}";
+          }
+          // Function snippet
+          else if (lineText === "function") {
+            snippet = "function name() {\\n  \\n}";
+          }
+          // Try-catch snippet
+          else if (lineText === "try") {
+            snippet = "try {\\n  \\n} catch (err) {\\n  console.error(err);\\n}";
+          }
+
+          if (snippet) {
+            e.preventDefault();
+            const beforeText = text.substring(0, start - lineText.length);
+            editor.value = beforeText + snippet + text.substring(start);
+            editor.selectionStart = editor.selectionEnd = beforeText.length + snippet.indexOf("\\n");
+            updateLineNumbers();
+            editor.dispatchEvent(new Event("input"));
+          }
+        }
       });
 
       // ==========================================
