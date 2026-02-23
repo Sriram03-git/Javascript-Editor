@@ -34,11 +34,25 @@
         line-height: 1.6;
       }
 
+      /* Responsive Font Size */
+      @media (max-width: 640px) {
+        #codeEditor,
+        #lineNumbers {
+          font-size: 13px;
+        }
+      }
+
       #codeEditor {
         white-space: pre;
         overflow-wrap: normal;
         padding: 24px !important;
         resize: none;
+      }
+
+      @media (max-width: 768px) {
+        #codeEditor {
+          padding: 16px !important;
+        }
       }
 
       #lineNumbers {
@@ -56,6 +70,14 @@
         justify-content: space-between;
         align-items: center;
         position: relative;
+        font-size: 13px;
+      }
+
+      @media (max-width: 640px) {
+        .concept-item {
+          font-size: 12px;
+          padding: 6px 8px;
+        }
       }
 
       .concept-item:hover {
@@ -102,6 +124,13 @@
         font-size: 14px;
       }
 
+      @media (max-width: 768px) {
+        .output-item {
+          font-size: 12px;
+          padding: 8px 10px;
+        }
+      }
+
       .output-item.error {
         border-left-color: #f87171;
         color: #fca5a5;
@@ -128,6 +157,14 @@
         border: 2px solid #22d3ee;
         cursor: pointer;
         transition: all 0.2s;
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 768px) {
+        .profile-pic {
+          width: 36px;
+          height: 36px;
+        }
       }
 
       .profile-pic:hover {
@@ -147,6 +184,13 @@
         z-index: 1000;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         display: none;
+      }
+
+      @media (max-width: 640px) {
+        .profile-dropdown {
+          min-width: 180px;
+          font-size: 12px;
+        }
       }
 
       .profile-dropdown.active {
@@ -173,6 +217,13 @@
         color: #cbd5e1;
       }
 
+      @media (max-width: 640px) {
+        .profile-dropdown-item {
+          font-size: 11px;
+          padding: 6px 10px;
+        }
+      }
+
       .profile-dropdown-item.info {
         border-bottom: 1px solid rgba(34, 211, 238, 0.2);
         margin-bottom: 8px;
@@ -197,6 +248,13 @@
         text-align: left;
       }
 
+      @media (max-width: 640px) {
+        .logout-btn {
+          font-size: 11px;
+          padding: 6px 10px;
+        }
+      }
+
       .logout-btn:hover {
         background: rgba(244, 63, 94, 0.15);
         border-color: #f43f5e;
@@ -219,6 +277,21 @@
         transition: all 0.3s !important;
         box-shadow: 0 0 20px rgba(59, 130, 246, 0.3) !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        white-space: nowrap;
+      }
+
+      @media (max-width: 768px) {
+        .run-button-primary {
+          padding: 8px 16px !important;
+          font-size: 12px !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .run-button-primary {
+          padding: 6px 12px !important;
+          font-size: 11px !important;
+        }
       }
 
       .run-button-primary:hover {
@@ -242,8 +315,206 @@
         margin: 0 12px;
       }
 
+      @media (max-width: 768px) {
+        .toolbar-separator {
+          margin: 0 8px;
+          height: 20px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .toolbar-separator {
+          display: none;
+        }
+      }
+
       .section-divider {
         border-left: 2px solid rgba(34, 211, 238, 0.15);
+      }
+
+      /* Hamburger Menu */
+      .hamburger-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: #22d3ee;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      .hamburger-btn:hover {
+        color: #0ea5e9;
+      }
+
+      @media (max-width: 1024px) {
+        .hamburger-btn {
+          display: block;
+        }
+      }
+
+      /* Sidebar Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 40;
+        display: none;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      /* Responsive Layout */
+      @media (max-width: 1024px) {
+        .sidebar-container {
+          position: fixed;
+          top: 64px;
+          left: 0;
+          height: calc(100vh - 64px);
+          width: 280px;
+          z-index: 50;
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .sidebar-container.mobile-active {
+          transform: translateX(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar-container {
+          width: 250px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .sidebar-container {
+          width: 200px;
+        }
+      }
+
+      /* Desktop: Keep sidebar visible */
+      @media (min-width: 1025px) {
+        .sidebar-container {
+          position: static !important;
+          transform: translateX(0) !important;
+          height: auto !important;
+          width: 320px !important;
+          top: auto !important;
+        }
+      }
+
+      /* Output Panel Responsive */
+      @media (max-width: 1280px) {
+        .output-container {
+          width: 300px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .output-container {
+          width: 280px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .output-container {
+          width: 100%;
+          height: 300px;
+          border-left: none;
+          border-top: 2px solid rgba(34, 211, 238, 0.15);
+        }
+      }
+
+      /* Line Numbers Responsive */
+      @media (max-width: 768px) {
+        #lineNumbers {
+          width: 40px;
+          padding: 16px 8px 16px 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        #lineNumbers {
+          width: 35px;
+          font-size: 12px;
+          padding: 12px 4px 12px 0;
+        }
+      }
+
+      /* Toolbar Responsive */
+      .toolbar-buttons {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .toolbar-buttons {
+          gap: 4px;
+        }
+      }
+
+      .toolbar-btn-group {
+        display: flex;
+        gap: 4px;
+      }
+
+      /* Mobile Button Sizes */
+      .toolbar-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .toolbar-btn {
+          padding: 6px 10px;
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .toolbar-btn {
+          padding: 5px 8px;
+          font-size: 10px;
+        }
+      }
+
+      /* Responsive Container */
+      .main-container {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        flex-direction: row;
+      }
+
+      @media (max-width: 1024px) {
+        .main-container {
+          flex-direction: column;
+        }
+      }
+
+      .editor-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-w: 0;
+        min-h: 0;
+      }
+
+      @media (max-width: 768px) {
+        .editor-container {
+          flex: 1;
+          min-h: calc(100vh - 300px - 64px);
+        }
       }
     </style>
   </head>
@@ -256,10 +527,14 @@
       }
     </script>
 
+    <!-- SIDEBAR OVERLAY (Mobile) -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
     <!-- LEFT SIDEBAR: Concepts List -->
-    <div class="flex h-screen overflow-hidden">
+    <div class="main-container">
       <div
-        class="w-80 flex flex-col border-r border-slate-700 bg-slate-900/50 backdrop-blur z-10"
+        id="sidebarContainer"
+        class="sidebar-container w-80 flex flex-col border-r border-slate-700 bg-slate-900/50 backdrop-blur z-10"
       >
         <div class="p-4 pb-3 border-b border-slate-800">
           <h1 class="text-lg font-bold neon mb-3">✨ JS Concepts</h1>
@@ -279,39 +554,46 @@
       </div>
 
       <!-- CENTER: Code Editor -->
-      <div class="flex-1 flex flex-col min-w-0 bg-[#0f172a]">
+      <div class="editor-container flex-1 flex flex-col min-w-0 bg-[#0f172a]">
         <!-- Toolbar -->
         <div
-          class="h-16 border-b border-slate-700 flex justify-between items-center px-6 bg-slate-800/40"
+          class="h-16 border-b border-slate-700 flex justify-between items-center px-3 md:px-6 bg-slate-800/40 gap-2 md:gap-4"
         >
+          <!-- Hamburger Menu (Mobile) -->
+          <button id="hambMenu" class="hamburger-btn" title="Toggle sidebar">
+            ☰
+          </button>
+
           <h2
             id="conceptTitle"
-            class="text-base font-bold text-cyan-400 truncate flex-1"
+            class="text-base font-bold text-cyan-400 truncate flex-1 min-w-0"
           >
             Select a Concept
           </h2>
-          <div class="flex items-center gap-2">
-            <button
-              id="copyBtn"
-              class="px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
-            >
-              Copy
-            </button>
-            <button
-              id="exportBtn"
-              class="px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
-            >
-              Export
-            </button>
-            <button
-              id="resetBtn"
-              class="px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
-            >
-              Reset
-            </button>
+          <div class="toolbar-buttons">
+            <div class="toolbar-btn-group">
+              <button
+                id="copyBtn"
+                class="toolbar-btn px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
+              >
+                Copy
+              </button>
+              <button
+                id="exportBtn"
+                class="toolbar-btn px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
+              >
+                Export
+              </button>
+              <button
+                id="resetBtn"
+                class="toolbar-btn px-3 py-2 text-xs font-semibold bg-slate-700 hover:bg-slate-600 rounded text-slate-200 transition"
+              >
+                Reset
+              </button>
+            </div>
 
             <!-- Run Button (Electric Blue) -->
-            <button id="runBtn" class="run-button-primary">▶ Run Code</button>
+            <button id="runBtn" class="run-button-primary">▶ Run</button>
 
             <div class="toolbar-separator"></div>
 
@@ -365,7 +647,8 @@
 
       <!-- RIGHT PANEL: Output -->
       <div
-        class="section-divider w-96 flex flex-col bg-slate-900 overflow-hidden"
+        id="outputContainer"
+        class="output-container section-divider w-96 flex flex-col bg-slate-900 overflow-hidden"
       >
         <div
           class="px-4 py-3 bg-slate-800/60 text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-700"
@@ -593,6 +876,43 @@
         if ((e.ctrlKey || e.metaKey) && e.key === "k") {
           e.preventDefault();
           document.getElementById("searchInput").focus();
+        }
+      });
+
+      // ==========================================
+      // MOBILE MENU HANDLING
+      // ==========================================
+      const hambMenu = document.getElementById("hambMenu");
+      const sidebarContainer = document.getElementById("sidebarContainer");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      function closeSidebar() {
+        sidebarContainer.classList.remove("mobile-active");
+        sidebarOverlay.classList.remove("active");
+      }
+
+      hambMenu.addEventListener("click", () => {
+        sidebarContainer.classList.toggle("mobile-active");
+        sidebarOverlay.classList.toggle("active");
+      });
+
+      sidebarOverlay.addEventListener("click", closeSidebar);
+
+      // Close sidebar when a concept is clicked
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("conceptList")
+          .addEventListener("click", (e) => {
+            if (e.target.closest(".concept-item")) {
+              closeSidebar();
+            }
+          });
+      });
+
+      // Close sidebar on window resize to desktop
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 1024) {
+          closeSidebar();
         }
       });
 
